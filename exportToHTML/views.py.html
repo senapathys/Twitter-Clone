@@ -1,0 +1,115 @@
+<html>
+<head>
+<title>views.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+views.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">django.shortcuts </span><span class="s0">import </span><span class="s1">render</span><span class="s0">, </span><span class="s1">redirect</span>
+<span class="s0">from </span><span class="s1">django.contrib.auth </span><span class="s0">import </span><span class="s1">authenticate</span><span class="s0">, </span><span class="s1">login</span><span class="s0">, </span><span class="s1">logout</span>
+<span class="s0">from </span><span class="s1">django.contrib.auth.models </span><span class="s0">import </span><span class="s1">User</span>
+<span class="s0">from </span><span class="s1">main.models </span><span class="s0">import </span><span class="s1">Tweet</span><span class="s0">, </span><span class="s1">Hashtag</span>
+
+
+<span class="s0">def </span><span class="s1">profile_view(request</span><span class="s0">, </span><span class="s1">author):</span>
+    <span class="s1">current_user = User.objects.get(username=author)</span>
+    <span class="s1">name = current_user.first_name + </span><span class="s2">&quot; &quot; </span><span class="s1">+ current_user.last_name</span>
+    <span class="s1">tweets = Tweet.objects.filter(author=current_user)</span>
+    <span class="s0">return </span><span class="s1">render(request</span><span class="s0">, </span><span class="s2">&quot;profile.html&quot;</span><span class="s0">,</span>
+                  <span class="s1">{</span><span class="s2">&quot;author&quot;</span><span class="s1">: author</span><span class="s0">,</span>
+                   <span class="s2">&quot;name&quot;</span><span class="s1">: name</span><span class="s0">,</span>
+                   <span class="s2">&quot;tweets&quot;</span><span class="s1">: tweets</span><span class="s0">,</span>
+                   <span class="s2">&quot;user&quot;</span><span class="s1">: request.user</span>
+                   <span class="s1">})</span>
+
+
+<span class="s0">def </span><span class="s1">hashtag_view(request):</span>
+    <span class="s1">hashtag = Hashtag.objects.get(id=request.GET[</span><span class="s2">'id'</span><span class="s1">])</span>
+    <span class="s1">tweets = Tweet.objects.filter(hashtag=hashtag)</span>
+    <span class="s0">return </span><span class="s1">render(request</span><span class="s0">, </span><span class="s2">&quot;hashtag.html&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;hashtag&quot;</span><span class="s1">: hashtag</span><span class="s0">, </span><span class="s2">&quot;tweets&quot;</span><span class="s1">: tweets})</span>
+
+
+<span class="s0">def </span><span class="s1">login_view(request):</span>
+    <span class="s1">username = request.POST[</span><span class="s2">'username'</span><span class="s1">]</span>
+    <span class="s1">password = request.POST[</span><span class="s2">'password'</span><span class="s1">]</span>
+    <span class="s1">user = authenticate(username=username</span><span class="s0">, </span><span class="s1">password=password)</span>
+
+    <span class="s0">if </span><span class="s1">user </span><span class="s0">is not None</span><span class="s1">:</span>
+        <span class="s1">login(request</span><span class="s0">, </span><span class="s1">user)</span>
+        <span class="s0">return </span><span class="s1">redirect(</span><span class="s2">'/'</span><span class="s1">)</span>
+    <span class="s0">else</span><span class="s1">:</span>
+        <span class="s0">return </span><span class="s1">render(</span><span class="s2">'accounts/error=True'</span><span class="s1">)</span>
+
+
+<span class="s0">def </span><span class="s1">signup_view(request):</span>
+    <span class="s1">user = User.objects.create_user(</span>
+        <span class="s1">username=request.POST[</span><span class="s2">'username'</span><span class="s1">]</span><span class="s0">,</span>
+        <span class="s1">password=request.POST[</span><span class="s2">'password'</span><span class="s1">]</span><span class="s0">,</span>
+        <span class="s1">email=request.POST[</span><span class="s2">'email'</span><span class="s1">]</span><span class="s0">,</span>
+        <span class="s1">first_name=request.POST[</span><span class="s2">'first_name'</span><span class="s1">]</span><span class="s0">,</span>
+        <span class="s1">last_name=request.POST[</span><span class="s2">'last_name'</span><span class="s1">]</span>
+    <span class="s1">)</span>
+
+    <span class="s1">login(request</span><span class="s0">, </span><span class="s1">user)</span>
+    <span class="s0">return </span><span class="s1">redirect(</span><span class="s2">'/'</span><span class="s1">)</span>
+
+
+<span class="s0">def </span><span class="s1">logout_view(request):</span>
+    <span class="s1">logout(request)</span>
+    <span class="s0">return </span><span class="s1">redirect(</span><span class="s2">'/'</span><span class="s1">)</span>
+
+
+<span class="s0">def </span><span class="s1">accounts_view(request):</span>
+    <span class="s0">return </span><span class="s1">render(request</span><span class="s0">, </span><span class="s2">'accounts.html'</span><span class="s0">, </span><span class="s1">{})</span>
+
+
+<span class="s0">def </span><span class="s1">delete_view(request):</span>
+    <span class="s1">tweet = Tweet.objects.get(id=request.GET[</span><span class="s2">'id'</span><span class="s1">])</span>
+    <span class="s1">tweet.delete()</span>
+    <span class="s0">return </span><span class="s1">redirect(</span><span class="s2">'/'</span><span class="s1">)</span>
+
+
+<span class="s0">def </span><span class="s1">like_view(request):</span>
+    <span class="s1">tweet = Tweet.objects.get(id=request.GET[</span><span class="s2">'id'</span><span class="s1">])</span>
+    <span class="s1">tweet.like(request.user)</span>
+    <span class="s0">return </span><span class="s1">redirect(</span><span class="s2">'/'</span><span class="s1">)</span>
+
+
+<span class="s0">def </span><span class="s1">main_view(request):</span>
+    <span class="s0">if not </span><span class="s1">request.user.is_authenticated:</span>
+        <span class="s0">return </span><span class="s1">redirect(</span><span class="s2">'/accounts'</span><span class="s1">)</span>
+
+    <span class="s0">if </span><span class="s1">request.method == </span><span class="s2">'POST'</span><span class="s1">:</span>
+        <span class="s1">tweet = Tweet(</span>
+            <span class="s1">body=request.POST[</span><span class="s2">'body'</span><span class="s1">]</span><span class="s0">,</span>
+            <span class="s1">author=request.user</span>
+        <span class="s1">)</span>
+        <span class="s1">tweet.save()</span>
+
+        <span class="s1">tokens = request.POST[</span><span class="s2">'body'</span><span class="s1">].split(</span><span class="s2">' '</span><span class="s1">)</span>
+        <span class="s0">for </span><span class="s1">token </span><span class="s0">in </span><span class="s1">tokens:</span>
+            <span class="s0">if </span><span class="s1">token[</span><span class="s3">0</span><span class="s1">] == </span><span class="s2">&quot;#&quot; </span><span class="s0">and </span><span class="s1">len(token) &gt; </span><span class="s3">0</span><span class="s1">:</span>
+                <span class="s0">if </span><span class="s1">Hashtag.objects.filter(hashtag=token[</span><span class="s3">1</span><span class="s1">:]).exists():</span>
+                    <span class="s1">hashtag = Hashtag.objects.get(hashtag=token[</span><span class="s3">1</span><span class="s1">:])</span>
+                    <span class="s1">hashtag.tweets.add(tweet)</span>
+                <span class="s0">else</span><span class="s1">:</span>
+                    <span class="s1">hashtag = Hashtag(hashtag=token[</span><span class="s3">1</span><span class="s1">:])</span>
+                    <span class="s1">hashtag.save()</span>
+                    <span class="s1">hashtag.tweets.add(tweet)</span>
+
+    <span class="s1">tweets = Tweet.objects.order_by(</span><span class="s2">'-date'</span><span class="s1">)</span>
+    <span class="s1">hashtags = Hashtag.objects.all()</span>
+    <span class="s0">return </span><span class="s1">render(request</span><span class="s0">, </span><span class="s2">'main.html'</span><span class="s0">, </span><span class="s1">{</span><span class="s2">'tweets'</span><span class="s1">: tweets</span><span class="s0">, </span><span class="s2">'user'</span><span class="s1">: request.user</span><span class="s0">, </span><span class="s2">'hashtags'</span><span class="s1">: hashtags})</span>
+</pre>
+</body>
+</html>

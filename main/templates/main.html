@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>🚀 Twitter v192</title>
+  </head>
+  <body>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <div class="container">
+        <div class="row" >
+            <div class="col-md-6" style="margin-top: 20px">
+                <h1>🚀 Twitter v192</h1>
+                <p>Hi {{ name }}! You are logged in as <a href="/profile/{{ user }}/">{{ user }}</a></p>
+            </div>
+            <div class="col-md-6" style="margin-top: 20px">
+                <a class='btn btn-danger float-right' href="/logout_view">Logout</a>
+            </div>
+        </div>
+        <div class="row">
+            <br />
+            <div class="col-md-12">
+                <form method="POST" action="/">
+                    {% csrf_token %}
+                    <br />
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1"><strong>Write a Tweet</strong></label>
+                        <textarea name="body" class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Tweet!</button>
+                    <br>
+                </form>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+                <div class="col-md-6" style="margin-top: 20px">
+                    <h2>Tweets</h2>
+                    {% for tweet in tweets %}
+                        <div class="card" style="width: 20rem;margin-bottom: 20px;margin-top: 20px">
+                          <div class="card-body">
+                            <h5 class="card-title">{{ tweet.name }} <a href="/profile/{{ tweet.author }}/">{{ tweet.author }}</a></h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ tweet.date }}</h6>
+                            <p class="card-text">{{ tweet.body }}</p>
+                            <a href="/like?id={{ tweet.id }}" class="card-link">Like ({{ tweet.get_likes }})</a>
+                            {% if tweet.author  ==  user %}
+                                <a href="/delete?id={{ tweet.id }}" class="card-link">Delete</a>
+                                <br />
+                            {% endif %}
+                          </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-6" style="margin-top: 20px">
+                        <h2>Hashtags</h2>
+                        {% for hashtag in hashtags %}
+                            <h5>{{ hashtag.hastag }} <a href="/hashtag?id={{ hashtag.id }}">#{{ hashtag.hashtag }}</a></h5>
+                        {% endfor %}
+                </div>
+        </div>
+    </div>
+
+
+  </body>
+</html>
+
+

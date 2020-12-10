@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>🚀 {{ name }} Profile</title>
+  </head>
+  <body>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <div class="container">
+        <div class="row" >
+            <div class="col-md-6" style="margin-top: 20px">
+                <h1>🚀 Twitter v192</h1>
+                <br />
+                <div class="card" style="width: 70rem;">
+                  <div class="card-header text-muted">
+                      You are viewing:
+                  </div>
+                  <div class="card-body">
+                    <h2 class="card-title">{{ name }}</h2>
+                    <h5 class="card-subtitle mb-2 text-muted">@{{ author }}</h5>
+                    <br />
+                    <p class="card-text">See who {{ name }} is connected with in the Twitter v192 community!</p>
+                    <a href="#" class="card-link" data-toggle="modal" data-target="#modalFollowers">Followers ({{ followers.count }})</a>
+                    <a href="#" class="card-link" data-toggle="modal" data-target="#modalFollowing">Following ({{ followings.count }})</a>
+                  </div>
+                  <div class="card-footer">
+                    <div class="btn-group" role="group" style="">
+                      <a href="/follow/{{ author }}/" class="btn btn-primary">Follow</a>
+                      <a href="/unfollow/{{ author }}/" class="btn btn-primary">Unfollow</a>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="margin-top: 20px">
+                <a class='btn btn-danger float-right' href="/logout_view">Logout</a>
+            </div>
+        </div>
+        <br />
+        <hr />
+        <br />
+        <div class="row">
+            <div class="col-sm">
+                <h2>Tweets</h2>
+            </div>
+        </div>
+        <div class="row">
+            {% for tweet in tweets %}
+                <div class="col-md-4">
+                    <div class="card" style="width: 20rem;margin-bottom: 20px;margin-top: 20px">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ tweet.author }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ tweet.date }}</h6>
+                            <p class="card-text">{{ tweet.body }}</p>
+                            <a href="/like?id={{ tweet.id }}" class="card-link">Like ({{ tweet.get_likes }})</a>
+                            {% if tweet.author  ==  user %}
+                                <a href="/delete?id={{ tweet.id }}" class="card-link">Delete</a>
+                                <br />
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+  <!-- Modal -->
+      <div class="modal fade" id="modalFollowing" role="dialog">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                {% for following in followings %}
+                    <p>{{ following.user }}</p>
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="modal fade" id="modalFollowers" role="dialog">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              {% for followers in followers %}
+                  <p>{{ followers.following_user }}</p>
+              {% endfor %}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </body>
+</html>

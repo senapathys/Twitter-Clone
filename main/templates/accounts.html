@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>🚀 Sign Up</title>
+  </head>
+  <body>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+
+    <div class="container">
+        <div class="row" >
+            <div class="col-md-12" style="margin-top: 20px">
+                <h1>🚀 Twitter v192</h1>
+                <p>Try out a basic Twitter clone made for CIS192 Fall 2020 by Sahitya Senapathy</p>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Sign Up</h2>
+                <br />
+                <form method="POST" action="/signup_view/">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else ;)</small>
+                  </div>
+                  <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="exampleInputFirstName">First Name</label>
+                        <input name="first_name" class="form-control" id="exampleInputFirstName" placeholder="First Name">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="exampleInputLastName">Last Name</label>
+                        <input name="last_name" class="form-control" id="exampleInputLastName" placeholder="Last Name">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleUsername">Username</label>
+                    <input name="username" class="form-control" id="exampleInputUsername" placeholder="Username">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Sign Up</button>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <h2>Log In</h2>
+                <br />
+                <form method="POST" action="/login_view/">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="exampleUsername">Username</label>
+                    <input name="username" class="form-control" id="exampleInputUsername" placeholder="Username">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Log In</button>
+                </form>
+            </div>
+        </div>
+        <div class="row"
+    </div>
+
+{##}
+{#    <br>#}
+{##}
+{#    <br>#}
+{##}
+{#        {% csrf_token %}#}
+{#        <input name="first_name" placeholder="first name" />#}
+{#        <input name="last_name" placeholder="last name" />#}
+{#        <input name="username" placeholder="username" />#}
+{#        <input name="email" placeholder="email" />#}
+{#        <input name="password" placeholder="password" type="password" />#}
+{#        <input type="submit" value="Sign Up"/>#}
+{#    </form>#}
+{#    <br>#}
+{##}
+{#    <h2>Log In</h2>#}
+{#    <br>#}
+{#    <form method="POST" action="/login_view/">#}
+{#        {% csrf_token %}#}
+{#        <input name="username" placeholder="username" />#}
+{#        <input name="password" placeholder="password" type="password" />#}
+{#        <input type="submit" value="Log In"/>#}
+{#    </form>#}
+
+  </body>
+</html>
