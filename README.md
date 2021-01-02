@@ -1,12 +1,6 @@
 # Twitter v192
 By Sahitya Senapathy<br>CIS 192, Fall 2020
 
-## Extra Credit
-
-I implemented a follower-following system 
-to make up for the lost time. I also had a ton of fun making the front-end look
-non-crappy :)
-
 ## Routes
 
 - /: main view of all tweets/hashtags
